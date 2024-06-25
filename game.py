@@ -3,6 +3,7 @@ import random
 from enum import Enum
 from collections import namedtuple
 import numpy as np
+import time
 
 pygame.init()
 font = pygame.font.Font('arial.ttf', 25)
@@ -35,6 +36,7 @@ class SnakeGameAI:
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
+        self.start_time = time.time()  # Initialize the timer
         self.reset()
 
 
@@ -51,6 +53,7 @@ class SnakeGameAI:
         self.food = None
         self._place_food()
         self.frame_iteration = 0
+        self.start_time = time.time()  # Reset the timer
 
 
     def _place_food(self):
@@ -79,7 +82,8 @@ class SnakeGameAI:
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
             reward = -10
-            return reward, game_over, self.score
+            elapsed_time = time.time() - self.start_time  # calculate elapsed time
+            return reward, game_over, self.score, elapsed_time
 
         # 4. place new food or just move
         if self.head == self.food:
@@ -93,7 +97,8 @@ class SnakeGameAI:
         self._update_ui()
         self.clock.tick(SPEED)
         # 6. return game over and score
-        return reward, game_over, self.score
+        return reward, game_over, self.score, 0
+
 
 
     def is_collision(self, pt=None):
@@ -120,6 +125,12 @@ class SnakeGameAI:
 
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
+        
+        # Calculate elapsed time
+        elapsed_time = time.time() - self.start_time
+        elapsed_time_text = font.render("Time: " + str(round(elapsed_time, 2)) + "s", True, WHITE)
+        self.display.blit(elapsed_time_text, [0, 30])
+        
         pygame.display.flip()
 
 
