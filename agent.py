@@ -119,7 +119,7 @@ def train():
         final_move = agent.get_action(state_old)
 
         # perform move and get new state
-        reward, done, score = game.play_step(final_move)
+        reward, done, score, elapsed_time = game.play_step(final_move)
         state_new = agent.get_state(game)
 
         # train short memory
@@ -138,7 +138,7 @@ def train():
                 record = score
                 agent.model.save()
 
-            print('Game', agent.n_games, 'Score', score, 'Record:', record)
+            print(f'Game {agent.n_games}, Score {score}, Record: {record}, Time: {round(elapsed_time, 2)}s')
 
             plot_scores.append(score)
             total_score += score
@@ -148,6 +148,7 @@ def train():
 
             if agent.n_games % 100 == 0:
                 agent.update_target_model()
+
 
 
 if __name__ == '__main__':

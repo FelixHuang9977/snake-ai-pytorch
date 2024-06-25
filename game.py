@@ -51,6 +51,7 @@ class SnakeGameAI:
         self.food = None
         self._place_food()
         self.frame_iteration = 0
+        self.start_time = pygame.time.get_ticks()  # Add this line to initialize start time
 
 
     def _place_food(self):
@@ -68,18 +69,18 @@ class SnakeGameAI:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        
+
         # 2. move
         self._move(action) # update the head
         self.snake.insert(0, self.head)
-        
+
         # 3. check if game over
         reward = 0
         game_over = False
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
             reward = -10
-            return reward, game_over, self.score
+            return reward, game_over, self.score, self.get_elapsed_time()
 
         # 4. place new food or just move
         if self.head == self.food:
@@ -88,12 +89,16 @@ class SnakeGameAI:
             self._place_food()
         else:
             self.snake.pop()
-        
+
         # 5. update ui and clock
         self._update_ui()
         self.clock.tick(SPEED)
         # 6. return game over and score
-        return reward, game_over, self.score
+        return reward, game_over, self.score, self.get_elapsed_time()
+
+    def get_elapsed_time(self):
+        return (pygame.time.get_ticks() - self.start_time) / 1000  # Add this method to get elapsed time in seconds
+
 
 
     def is_collision(self, pt=None):
@@ -118,8 +123,13 @@ class SnakeGameAI:
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
-        self.display.blit(text, [0, 0])
+        text_score = font.render("Score: " + str(self.score), True, WHITE)
+        self.display.blit(text_score, [0, 0])
+        
+        elapsed_time = round(self.get_elapsed_time(), 2)
+        text_time = font.render("Time: " + str(elapsed_time) + " s", True, WHITE)
+        self.display.blit(text_time, [0, 30])  # Adjust the position as needed
+
         pygame.display.flip()
 
 
