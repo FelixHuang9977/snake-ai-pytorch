@@ -10,6 +10,16 @@
 
 这项研究聚焦于强化学习在游戏策略开发中的应用，以经典的"贪吃蛇游戏"为案例。研究目标包括开发能有效玩游戏的AI代理，比较不同强化学习算法的效果，并探讨这些技术在更广泛AI领域的应用潜力。实验采用DQN、Double DQN和Dueling DQN三种算法，在模拟环境中训练AI代理，并设置多项性能指标。研究旨在深化对强化学习在游戏策略开发中应用的理解，为更复杂场景提供框架，并推动适应性更强的AI系统开发。
 
+## 查看不同算法实现的代码
+
+你可以通过切换分支来查看不同算法实现的代码：
+
+- [main](https://github.com/chenxingxu3/snake-ai-pytorch/tree/main)：DQN 算法
+
+- [ddqn](https://github.com/chenxingxu3/snake-ai-pytorch/tree/ddqn)：Double DQN 算法
+
+- [DuelingDQN](https://github.com/chenxingxu3/snake-ai-pytorch/tree/DuelingDQN)：Dueling DQN 算法
+
 ## 在CONDA中创建运行环境
 
 从文件创建环境`snake-ai-pytorch.yml`：

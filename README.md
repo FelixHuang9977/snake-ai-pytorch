@@ -10,6 +10,16 @@
 
 This research focuses on the application of reinforcement learning to the development of game strategies, using the classic game of Snake as a case study. The goals of the research include developing AI agents that can effectively play the game, comparing the effectiveness of different reinforcement learning algorithms, and exploring the potential of these techniques in the broader AI domain. Three algorithms, DQN, Double DQN, and Dueling DQN, were used to train the AI agents in a simulated environment, and several performance metrics were set. The research aims to deepen the understanding of the application of reinforcement learning in game strategy development, provide a framework for more complex scenarios, and drive the development of more adaptive AI systems.
 
+## Viewing Code Implemented by Different Algorithms
+
+You can view the code for different algorithm implementations by switching branches:
+
+- [main](https://github.com/chenxingxu3/snake-ai-pytorch/tree/main): DQN algorithm
+
+- [ddqn](https://github.com/chenxingxu3/snake-ai-pytorch/tree/ddqn): Double DQN algorithm
+
+- [DuelingDQN](https://github.com/chenxingxu3/snake-ai-pytorch/tree/DuelingDQN): Dueling DQN algorithm
+
 ## Creating a runtime environment in CONDA
 
 Creating an environment from `snake-ai-pytorch.yml` file: 

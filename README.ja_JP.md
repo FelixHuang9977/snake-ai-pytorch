@@ -10,6 +10,16 @@
 
 本研究では、古典的なゲームである「スネークゲーム」をケーススタディとして、強化学習のゲーム戦略開発への応用に焦点を当てている。 研究の目標には、ゲームを効果的にプレイできるAIエージェントの開発、異なる強化学習アルゴリズムの有効性の比較、より広いAI領域におけるこれらの技術の可能性の探求が含まれる。 DQN、Double DQN、Dueling DQNの3つのアルゴリズムを用いて、いくつかの性能指標を用いたシミュレーション環境でAIエージェントを訓練した。 本研究の目的は、ゲーム戦略開発における強化学習の応用に関する理解を深め、より複雑な状況に対応できるフレームワークを提供し、より適応性の高いAIシステムの開発を推進することである。
 
+## 異なるアルゴリズムで実装されたコードを見る
+
+ブランチを切り替えることで、異なるアルゴリズムによって実装されたコードを見ることができる：
+
+- [main](https://github.com/chenxingxu3/snake-ai-pytorch/tree/main)：DQN アルゴリズム
+
+- [ddqn](https://github.com/chenxingxu3/snake-ai-pytorch/tree/ddqn)：Double DQN アルゴリズム
+
+- [DuelingDQN](https://github.com/chenxingxu3/snake-ai-pytorch/tree/DuelingDQN)：Dueling DQN アルゴリズム
+
 ## CONDAでランタイム環境を作成する
 
 このファイルから `snake-ai-pytorch.yml` 環境を作成する：
