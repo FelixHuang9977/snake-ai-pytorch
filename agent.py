@@ -3,7 +3,7 @@ import random
 import numpy as np
 from collections import deque
 from game import SnakeGameAI, Direction, Point
-from model import Linear_QNet, QTrainer
+from model import Dueling_QNet, QTrainer
 from helper import plot
 
 MAX_MEMORY = 100_000
@@ -17,7 +17,7 @@ class Agent:
         self.epsilon = 0 # randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
-        self.model = Linear_QNet(11, 256, 3)
+        self.model = Dueling_QNet(11, 256, 3)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
 
@@ -115,7 +115,7 @@ def train():
         final_move = agent.get_action(state_old)
 
         # perform move and get new state
-        reward, done, score, elapsed_time = game.play_step(final_move)
+        reward, done, score, game_time = game.play_step(final_move)
         state_new = agent.get_state(game)
 
         # train short memory
@@ -134,14 +134,13 @@ def train():
                 record = score
                 agent.model.save()
 
-            print(f'Game {agent.n_games}, Score {score}, Record: {record}, Time: {round(elapsed_time, 2)}s')
+            print(f'Game {agent.n_games}, Score {score}, Record: {record}, Time: {round(game_time, 2)}s')
 
             plot_scores.append(score)
             total_score += score
             mean_score = total_score / agent.n_games
             plot_mean_scores.append(mean_score)
             plot(plot_scores, plot_mean_scores)
-
 
 
 if __name__ == '__main__':
