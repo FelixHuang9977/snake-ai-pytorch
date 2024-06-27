@@ -64,6 +64,14 @@ Screenshot of the game running:
 
 You can view the training results in the `results` directory.
 
+## Video recording of training process (1,000 episodes)
+
+- DQN：[AI learns to play Snake Game using Deep Q Learning over 1000 episodes](https://odysee.com/@Xingxu:4/snake-dqn-1000-episodes:5?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
+- Double DQN：[AI learns to play Snake Game using Double DQN over 1000 episodes](https://odysee.com/@Xingxu:4/snake-ddqn-1000-episodes:6?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
+- Dueling DQN：[AI learns to play Snake Game using Dueling DQN over 1000 episodes](https://odysee.com/@Xingxu:4/snake-duelingdqn-1000-episodes:3?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
 ## Referenced code
 
 The design of the Snake game and the implementation of the DQN algorithm references code from the following project:

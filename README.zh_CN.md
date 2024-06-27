@@ -64,6 +64,14 @@ python agent.py
 
 你可以在`results`目录下查看训练结果。
 
+## 训练过程录像(1000回)
+
+- DQN：[利用Deep Q Learning算法训练AI玩贪吃蛇游戏（1000回）](https://odysee.com/@Xingxu:4/snake-dqn-1000-episodes:5?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
+- Double DQN：[利用Double DQN算法训练AI玩贪吃蛇游戏（1000回）](https://odysee.com/@Xingxu:4/snake-ddqn-1000-episodes:6?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
+- Dueling DQN：[利用Dueling DQN算法训练AI玩贪吃蛇游戏（1000回）](https://odysee.com/@Xingxu:4/snake-duelingdqn-1000-episodes:3?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
 ## 参考的代码
 
 贪吃蛇游戏的设计以及DQN算法的实现，参考了以下项目中的代码：
