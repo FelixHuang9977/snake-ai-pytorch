@@ -66,6 +66,14 @@ python agent.py
 
 トレーニング結果は `results` ディレクトリで見ることができる。
 
+## トレーニング過程のビデオ録画（1,000回）
+
+- DQN：[AIが1000エピソードにわたってDeep Q Learningを使用してSnakeのプレイを学習](https://odysee.com/@Xingxu:4/snake-dqn-1000-episodes:5?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
+- Double DQN：[AIが1000エピソードにわたってDouble DQNを使用してSnakeのプレイを学習](https://odysee.com/@Xingxu:4/snake-ddqn-1000-episodes:6?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
+- Dueling DQN：[AIが1000エピソードにわたってDueling DQNを使用してSnakeのプレイを学習](https://odysee.com/@Xingxu:4/snake-duelingdqn-1000-episodes:3?r=3voigLSm5Gk2uFYiE7h2PoseeErFC63k)
+
 ## 参考コード
 
 スネークゲームの設計とDQNアルゴリズムの実装は、以下のプロジェクトのコードを参考とした：
