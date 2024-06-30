@@ -7,7 +7,6 @@ import time
 
 pygame.init()
 font = pygame.font.Font('arial.ttf', 25)
-#font = pygame.font.SysFont('arial', 25)
 
 class Direction(Enum):
     RIGHT = 1
@@ -32,16 +31,16 @@ class SnakeGameAI:
     def __init__(self, w=640, h=480):
         self.w = w
         self.h = h
-        # init display
+        # 初期表示
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
-        self.start_time = time.time()  # Initialize the timer
+        self.start_time = time.time()  # タイマーを初期化する
         self.reset()
 
 
     def reset(self):
-        # init game state
+        # ゲームの状態を初期化する
         self.direction = Direction.RIGHT
 
         self.head = Point(self.w/2, self.h/2)
@@ -53,7 +52,7 @@ class SnakeGameAI:
         self.food = None
         self._place_food()
         self.frame_iteration = 0
-        self.start_time = time.time()  # Reset the timer
+        self.start_time = time.time()  # タイマーをリセットする
 
 
     def _place_food(self):
@@ -66,26 +65,26 @@ class SnakeGameAI:
 
     def play_step(self, action):
         self.frame_iteration += 1
-        # 1. collect user input
+        # 1. ユーザーからの入力を収集する
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
         
-        # 2. move
-        self._move(action) # update the head
+        # 2. 移動
+        self._move(action) # ヘッドをアップデートする
         self.snake.insert(0, self.head)
         
-        # 3. check if game over
+        # 3. ゲームオーバーかどうか確認する
         reward = 0
         game_over = False
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
             reward = -10
-            elapsed_time = time.time() - self.start_time  # calculate elapsed time
+            elapsed_time = time.time() - self.start_time  # 実行時間を計算する
             return reward, game_over, self.score, elapsed_time
 
-        # 4. place new food or just move
+        # 4. 新しい食べ物を配置するか、移動させるだけだ
         if self.head == self.food:
             self.score += 1
             reward = 10
@@ -93,10 +92,10 @@ class SnakeGameAI:
         else:
             self.snake.pop()
         
-        # 5. update ui and clock
+        # 5. UIとクロックを更新する
         self._update_ui()
         self.clock.tick(SPEED)
-        # 6. return game over and score
+        
         return reward, game_over, self.score, 0
 
 
@@ -104,10 +103,10 @@ class SnakeGameAI:
     def is_collision(self, pt=None):
         if pt is None:
             pt = self.head
-        # hits boundary
+        # バウンダリにヒットする
         if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0:
             return True
-        # hits itself
+        # 自分自身にヒットする
         if pt in self.snake[1:]:
             return True
 
@@ -126,7 +125,7 @@ class SnakeGameAI:
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
         
-        # Calculate elapsed time
+        # 実行時間を計算する
         elapsed_time = time.time() - self.start_time
         elapsed_time_text = font.render("Time: " + str(round(elapsed_time, 2)) + "s", True, WHITE)
         self.display.blit(elapsed_time_text, [0, 30])
@@ -134,20 +133,18 @@ class SnakeGameAI:
         pygame.display.flip()
 
 
-    def _move(self, action):
-        # [straight, right, left]
-
+    def _move(self, action): 
         clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clock_wise.index(self.direction)
-
+        # [直進, 右折, 左折]
         if np.array_equal(action, [1, 0, 0]):
-            new_dir = clock_wise[idx] # no change
+            new_dir = clock_wise[idx] # 直進
         elif np.array_equal(action, [0, 1, 0]):
             next_idx = (idx + 1) % 4
-            new_dir = clock_wise[next_idx] # right turn r -> d -> l -> u
+            new_dir = clock_wise[next_idx] # 右折 右 -> 下 -> 左 -> 上
         else: # [0, 0, 1]
             next_idx = (idx - 1) % 4
-            new_dir = clock_wise[next_idx] # left turn r -> u -> l -> d
+            new_dir = clock_wise[next_idx] # 左折 左 -> 下 -> 右 -> 上
 
         self.direction = new_dir
 
