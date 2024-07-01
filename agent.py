@@ -34,41 +34,42 @@ class Agent:
         dir_d = game.direction == Direction.DOWN
 
         state = [
-            # Danger straight
+            # 直進危険
             (dir_r and game.is_collision(point_r)) or 
             (dir_l and game.is_collision(point_l)) or 
             (dir_u and game.is_collision(point_u)) or 
             (dir_d and game.is_collision(point_d)),
 
-            # Danger right
+            # 右に危険
             (dir_u and game.is_collision(point_r)) or 
             (dir_d and game.is_collision(point_l)) or 
             (dir_l and game.is_collision(point_u)) or 
             (dir_r and game.is_collision(point_d)),
 
-            # Danger left
+            # 左に危険
             (dir_d and game.is_collision(point_r)) or 
             (dir_u and game.is_collision(point_l)) or 
             (dir_r and game.is_collision(point_u)) or 
             (dir_l and game.is_collision(point_d)),
             
-            # Move direction
+            # 移動方向
             dir_l,
             dir_r,
             dir_u,
             dir_d,
             
-            # Food location 
-            game.food.x < game.head.x,  # food left
-            game.food.x > game.head.x,  # food right
-            game.food.y < game.head.y,  # food up
-            game.food.y > game.head.y  # food down
+            # 食べ物の位置 
+            game.food.x < game.head.x,  # 左に食べ物がある
+            game.food.x > game.head.x,  # 右に食べ物がある
+            game.food.y < game.head.y,  # 上に食べ物がある
+            game.food.y > game.head.y  # 下に食べ物がある
             ]
 
         return np.array(state, dtype=int)
 
     def remember(self, state, action, reward, next_state, done):
-        self.memory.append((state, action, reward, next_state, done)) # popleft if MAX_MEMORY is reached
+        # MAX_MEMORYに達した場合はpopleft
+        self.memory.append((state, action, reward, next_state, done)) 
 
     def train_long_memory(self):
         if len(self.memory) > BATCH_SIZE:
@@ -84,8 +85,7 @@ class Agent:
     def train_short_memory(self, state, action, reward, next_state, done):
         self.trainer.train_step(state, action, reward, next_state, done)
 
-    def get_action(self, state):
-        # random moves: tradeoff exploration / exploitation
+    def get_action(self, state):        
         self.epsilon = 80 - self.n_games
         final_move = [0,0,0]
         if random.randint(0, 200) < self.epsilon:
@@ -108,24 +108,24 @@ def train():
     agent = Agent()
     game = SnakeGameAI()
     while True:
-        # get old state
+        # 状態取得
         state_old = agent.get_state(game)
 
-        # get move
+        # 行動決定
         final_move = agent.get_action(state_old)
 
-        # perform move and get new state
+        # 行動を起こし、新しい状態を得る
         reward, done, score, game_time = game.play_step(final_move)
         state_new = agent.get_state(game)
 
-        # train short memory
+        # 短期記憶をトレーニングする
         agent.train_short_memory(state_old, final_move, reward, state_new, done)
 
-        # remember
+        # 現在のステップを記憶する
         agent.remember(state_old, final_move, reward, state_new, done)
 
         if done:
-            # train long memory, plot result
+            # 長期記憶をトレーニングし、ゲームをリセットする
             game.reset()
             agent.n_games += 1
             agent.train_long_memory()

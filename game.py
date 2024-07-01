@@ -3,11 +3,11 @@ import random
 from enum import Enum
 from collections import namedtuple
 import numpy as np
-import time  # 在文件顶部添加这一行
+import time  
 
 pygame.init()
 font = pygame.font.Font('arial.ttf', 25)
-#font = pygame.font.SysFont('arial', 25)
+
 
 class Direction(Enum):
     RIGHT = 1
@@ -32,7 +32,7 @@ class SnakeGameAI:
     def __init__(self, w=640, h=480):
         self.w = w
         self.h = h
-        # init display
+        # 初期表示
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
@@ -40,7 +40,7 @@ class SnakeGameAI:
 
 
     def reset(self):
-        # init game state
+        # ゲームの状態を初期化する
         self.direction = Direction.RIGHT
 
         self.head = Point(self.w/2, self.h/2)
@@ -66,17 +66,17 @@ class SnakeGameAI:
 
     def play_step(self, action):
         self.frame_iteration += 1
-        # 1. collect user input
+        # 1. ユーザーからの入力を収集する
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        # 2. move
+        # 2. 移動
         self._move(action)  # update the head
         self.snake.insert(0, self.head)
 
-        # 3. check if game over
+        # 3. ゲームオーバーかどうか確認する
         reward = 0
         game_over = False
         self.elapsed_time = time.time() - self.start_time
@@ -85,7 +85,7 @@ class SnakeGameAI:
             reward = -10
             return reward, game_over, self.score, self.elapsed_time
 
-        # 4. place new food or just move
+        # 4. 新しい食べ物を配置するか、移動させるだけだ
         if self.head == self.food:
             self.score += 1
             reward = 10
@@ -93,21 +93,21 @@ class SnakeGameAI:
         else:
             self.snake.pop()
 
-        # 5. update ui and clock
+        # 5. UIとクロックを更新する
         self._update_ui()
         self.clock.tick(SPEED)
 
-        # 6. return game over, score, and elapsed time
+        
         return reward, game_over, self.score, self.elapsed_time
 
 
     def is_collision(self, pt=None):
         if pt is None:
             pt = self.head
-        # hits boundary
+        # バウンダリにヒットする
         if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0:
             return True
-        # hits itself
+        # 自分自身にヒットする
         if pt in self.snake[1:]:
             return True
 
@@ -126,7 +126,7 @@ class SnakeGameAI:
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
         
-        # 确保在更新 UI 时计算持续时间
+        # UI更新時に持続時間が計算されるようにする
         self.elapsed_time = time.time() - self.start_time
         elapsed_time_text = font.render(f"Time: {self.elapsed_time:.2f} s", True, WHITE)
         self.display.blit(elapsed_time_text, [0, 30])
@@ -135,19 +135,19 @@ class SnakeGameAI:
 
 
     def _move(self, action):
-        # [straight, right, left]
+        # [直進, 右折, 左折]
 
         clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clock_wise.index(self.direction)
 
         if np.array_equal(action, [1, 0, 0]):
-            new_dir = clock_wise[idx] # no change
+            new_dir = clock_wise[idx] # 直進
         elif np.array_equal(action, [0, 1, 0]):
             next_idx = (idx + 1) % 4
-            new_dir = clock_wise[next_idx] # right turn r -> d -> l -> u
+            new_dir = clock_wise[next_idx] # 右折 右 -> 下 -> 左 -> 上
         else: # [0, 0, 1]
             next_idx = (idx - 1) % 4
-            new_dir = clock_wise[next_idx] # left turn r -> u -> l -> d
+            new_dir = clock_wise[next_idx] # 左折 左 -> 下 -> 右 -> 上
 
         self.direction = new_dir
 
